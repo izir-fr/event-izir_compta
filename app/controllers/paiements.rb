@@ -9,6 +9,7 @@ carts = Datas.get_carts_datas(event)
 paiements = Array.new
 
 carts.each do |cart|
+  # puts cart
   if cart['paiement'].key?('stripe_id')
       formated_cart = Cart.new(cart['_id']['$oid'], cart['user']['$oid'], cart['paiement']['stripe_id'], event, cart['paiement']['amount'], cart['paiement']['captured'])
       cart['products'].each do |product|
@@ -16,6 +17,8 @@ carts.each do |cart|
       end
       paiements << formated_cart
   end
+  puts formated_cart.inspect
+  puts "----------------"
 end 
 
-puts paiements.inspect
+# puts paiements.inspect
