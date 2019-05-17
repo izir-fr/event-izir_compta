@@ -64,8 +64,7 @@ class Inscriptions
     puts "----------------"
     CSV.open("./data/#{event}.csv", "wb") do |csv|
       @facturation.each do |paiement|
-        csv << ["cart_id", "user_email", "stripe_id", "event_total", "nb_participants", "event_id"]
-        csv << paiement
+        csv << paiement # ["cart_id", "user_email", "stripe_id", "event_total", "nb_participants", "event_id"]
       end
       puts "Check #{event}.csv"
     end
