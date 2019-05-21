@@ -6,27 +6,13 @@ require "csv"
 
 class Inscriptions
 
+  attr_accessor :facturation, :participants, :options, :total
+
   def initialize
     @participants = 0
     @options = 0
     @total = 0
     @facturation = Array.new # contains only valide paiements
-  end
-
-  def facturation
-    @facturation
-  end
-
-  def participants
-    @participants
-  end
-
-  def options
-    @options
-  end
-
-  def total
-    @total    
   end
 
   def Paiement_check(carts, event)
@@ -44,10 +30,10 @@ class Inscriptions
           if formated_cart != nil
 
             # validation de formated_cart avec stripe
-            stripe_validation = Paiement.retreive_paiement(formated_cart.transaction_id)
+            stripe_validation = Paiement.retreive_paiement(formated_cart.stripe_id)
 
             if stripe_validation == true
-              formated_cart.set_user_email(Datas.get_user(formated_cart.user_id)["email"])
+              formated_cart.user_email = Datas.get_user(formated_cart.user_id)["email"]
               @participants += formated_cart.nb_participants
               @options += formated_cart.nb_options
               @total += formated_cart.event_total.to_f

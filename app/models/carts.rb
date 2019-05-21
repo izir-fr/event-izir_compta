@@ -1,5 +1,7 @@
 class Cart
 
+  attr_accessor :nb_participants, :user_id, :user_email, :event_total, :total, :stripe_id, :nb_options
+
   def initialize (cart_id, user_id, stripe_id, event_id, amount, captured)
     @cart_id = cart_id
     @user_id = user_id
@@ -30,36 +32,8 @@ class Cart
     end
   end
 
-  def nb_participants
-    @nb_participants
-  end
-
-  def nb_options
-    @nb_options
-  end
-
-  def transaction_id
-    @stripe_id
-  end
-
-  def set_user_email email
-    @user_email = email
-  end
-
-  def user_id
-    @user_id
-  end
-
-  def event_total
-    @event_total
-  end
-
   def get_facturation_data
     [@cart_id, @user_email, @stripe_id, @event_total, @nb_participants, @event_id]
-  end
-
-  def total
-    @total
   end
 
 end
