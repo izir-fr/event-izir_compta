@@ -1,17 +1,22 @@
 require 'dotenv/load'
 
-require './app/controllers/inscriptions'
-require_relative './app/routes/api_mlab'
+require './app/models/folders.rb'
+require './app/modules/dataset.rb'
 
-puts "Quel ets l'ID de l'événement ?"
+puts "Quel est l'ID de l'événement ?"
 
-event = gets.chomp.to_s
+event_id = gets.chomp.to_s
 
-carts = Datas.get_carts_datas(event)
+carts_api_datas = Dataset.get_carts(event_id)
 
-paiements = Inscriptions.new
-paiements.Paiement_check(carts, event)
+folders = Folders.new
 
-puts "#{paiements.facturation.count} paiements pour #{paiements.participants} inscriptions et #{paiements.options} options avec CB pour #{paiements.total}"
+folders.paiement_check(carts_api_datas, event_id)
 
-paiements.csv_export(event)
+puts "#{folders.facturation.count} paiements pour #{folders.participants} inscriptions et #{folders.options} options avec CB pour #{folders.total}"
+
+puts "voici les dossiers en litige:"
+
+puts folders.refounded.inspect
+
+folders.export_in_csv(event_id)

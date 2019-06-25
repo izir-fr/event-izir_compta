@@ -19,9 +19,9 @@ def get_datas collection, querry
 
 end
 
-module Datas
+module Dataset
 
-  def Datas.get_carts_datas event_id
+  def Dataset.get_carts event_id
     querry = "%7B\"products.event\"%3A%7B\"%24oid\"%3A\"#{event_id}\"%7D%7D"
     
     collection = "carts"
@@ -30,7 +30,7 @@ module Datas
 
   end
 
-  def Datas.get_user user_id
+  def Dataset.get_user user_id
     querry = false
 
     collection = "users/#{user_id}"

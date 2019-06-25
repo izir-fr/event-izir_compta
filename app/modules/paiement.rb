@@ -4,17 +4,26 @@ Stripe.api_key = ENV["STRIPE"]
 
 module Paiement
 
-  def Paiement.retreive_paiement transaction
+  def Paiement.validation transaction_id
 
     begin
-      retrieve =  Stripe::Charge.retrieve(transaction.to_s)
-      puts "captured: #{retrieve["captured"]}, refund: #{retrieve["refunded"]}, #{retrieve["amount_refunded"]}"
+
+      retrieve =  Stripe::Charge.retrieve(transaction_id.to_s)
 
       if retrieve["captured"] == true && retrieve["refunded"] == false && retrieve["amount_refunded"] == 0
+       
+        puts "#{transaction_id} - status: OK, captured: #{retrieve["captured"]}, refund: #{retrieve["amount_refunded"]}€"
+        
         true
+
       else
+
+        puts "#{transaction_id} - status: KO, captured: #{retrieve["captured"]}, refund: #{retrieve["amount_refunded"]}€"
+
         false
-      end     
+
+      end  
+
     rescue Stripe::CardError => e
       # Since it's a decline, Stripe::CardError will be caught
       body = e.json_body
