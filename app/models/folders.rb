@@ -6,7 +6,7 @@ require "csv"
 
 class Folders
 
-  attr_accessor :facturation, :participants, :options, :total, :refounded
+  attr_accessor :facturation, :participants, :options, :total, :refounded, :error
 
   def initialize
     @participants = 0
@@ -14,6 +14,7 @@ class Folders
     @total = 0
     @facturation = Array.new # contains only valide paiements
     @refounded = Array.new
+    @error = Array.new
   end
 
   def paiement_check(api_carts, event_id)
@@ -36,10 +37,10 @@ class Folders
 
         if formated_cart != nil
 
-          # validation de formated_cart avec stripe
           paiement_validation = Paiement.validation(formated_cart.stripe_id)
-
-          if paiement_validation == true
+          
+          # validation de formated_cart avec stripe
+          if paiement_validation != false
 
             formated_cart.user_email = Dataset.get_user(formated_cart.user_id)["email"]
 
@@ -47,25 +48,36 @@ class Folders
 
             @options += formated_cart.nb_options
 
-            @total += formated_cart.event_total.to_f
+            if paiement_validation == true
 
-            @facturation << formated_cart.get_facturation_data
+              @total += formated_cart.event_total.to_f
 
-            puts "added in @facturation"
+              @facturation << formated_cart.get_facturation_data
 
-          else
+              puts "added in @facturation"
 
-            @refounded << formated_cart
+            elsif paiement_validation.to_i > 0
+              
+              formated_cart.refounded_total(paiement_validation)
+
+              @total += formated_cart.event_total.to_f
+
+              @facturation << formated_cart.get_facturation_data
+
+              @refounded << formated_cart
+
+            end
 
           end
 
         else
 
-          puts "error: #{cart}"
+          @error << cart
 
         end
 
         puts "----------------"
+
       end
 
     end
@@ -84,7 +96,7 @@ class Folders
 
       end
 
-      puts "Check #{event}.csv"
+      puts "Check #{event_id}.csv"
 
     end
 

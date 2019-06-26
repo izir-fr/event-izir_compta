@@ -16,9 +16,13 @@ module Paiement
         
         true
 
-      else
-
+      elsif retrieve["captured"].to_i > 0
+        
         puts "#{transaction_id} - status: KO, captured: #{retrieve["captured"]}, refund: #{retrieve["amount_refunded"]}€"
+
+        retrieve["amount_refunded"].to_i / 100
+
+      else
 
         false
 

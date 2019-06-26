@@ -19,4 +19,8 @@ puts "voici les dossiers en litige:"
 
 puts folders.refounded.inspect
 
+puts "voici les cart en erreur:"
+
+puts folders.error.inspect
+
 folders.export_in_csv(event_id)

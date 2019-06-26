@@ -39,9 +39,15 @@ class Cart
 
   end
 
+  def refounded_total amount_refound
+
+    @total -= amount_refound.to_i
+
+  end
+
   def get_facturation_data
 
-    [@cart_id, @user_email, @stripe_id, @event_total, @nb_participants, @nb_options, @event_id]
+    [@cart_id, @user_email, @stripe_id, @event_total, @nb_participants, @event_id, @nb_options]
 
   end
 
