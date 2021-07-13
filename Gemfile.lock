@@ -1,8 +1,8 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.6.0)
-      public_suffix (>= 2.0.2, < 4.0)
+    addressable (2.8.0)
+      public_suffix (>= 2.0.2, < 5.0)
     connection_pool (2.2.2)
     csv (3.1.1)
     domain_name (0.5.20180417)
@@ -22,7 +22,7 @@ GEM
     multipart-post (2.1.1)
     net-http-persistent (3.0.1)
       connection_pool (~> 2.2)
-    public_suffix (3.0.3)
+    public_suffix (4.0.6)
     stripe (4.17.0)
       faraday (~> 0.13)
       net-http-persistent (~> 3.0)
@@ -31,6 +31,7 @@ GEM
     unf_ext (0.0.7.6)
 
 PLATFORMS
+  ruby
   x64-mingw32
 
 DEPENDENCIES
